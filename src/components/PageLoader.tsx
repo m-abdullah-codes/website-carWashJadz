@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ScaleLoader } from "react-spinners";
+import { markAnimReady } from "@/lib/animReady";
 
 const PRIMARY = "#c7361d";
 const FADE_MS = 500;
@@ -62,6 +63,7 @@ export default function PageLoader() {
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      markAnimReady();
       setVisible(false);
       return;
     }
@@ -71,6 +73,7 @@ export default function PageLoader() {
 
     const finish = () => {
       if (cancelled) return;
+      markAnimReady();
       setFadeOut(true);
       hideTimer = setTimeout(() => setVisible(false), FADE_MS);
     };

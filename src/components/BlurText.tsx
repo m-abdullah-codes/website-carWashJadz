@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useEffect, useRef, useState, useMemo } from "react";
 import type { ElementType } from "react";
+import { whenAnimReady } from "@/lib/animReady";
 
 const buildKeyframes = (
   from: Record<string, string | number>,
@@ -59,17 +60,28 @@ export default function BlurText({
     const node = ref.current;
     if (!node) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.unobserve(node);
-        }
-      },
-      { threshold, rootMargin },
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
+    let observer: IntersectionObserver;
+    let cancelled = false;
+
+    whenAnimReady().then(() => {
+      if (cancelled) return;
+
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setInView(true);
+            observer.unobserve(node);
+          }
+        },
+        { threshold, rootMargin },
+      );
+      observer.observe(node);
+    });
+
+    return () => {
+      cancelled = true;
+      observer?.disconnect();
+    };
   }, [threshold, rootMargin]);
 
   const defaultFrom = useMemo(

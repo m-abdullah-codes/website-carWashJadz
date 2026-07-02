@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { CSSProperties, ElementType, ReactNode } from "react";
+import { whenAnimReady } from "@/lib/animReady";
 
 type RevealProps = {
   as?: ElementType;
@@ -48,9 +49,20 @@ export default function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const observer = getObserver();
-    observer.observe(el);
-    return () => observer.unobserve(el);
+
+    let observer: IntersectionObserver;
+    let cancelled = false;
+
+    whenAnimReady().then(() => {
+      if (cancelled) return;
+      observer = getObserver();
+      observer.observe(el);
+    });
+
+    return () => {
+      cancelled = true;
+      observer?.unobserve(el);
+    };
   }, []);
 
   const mergedStyle = delay

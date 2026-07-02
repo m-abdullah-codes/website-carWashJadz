@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { whenAnimReady } from "@/lib/animReady";
 
 type CountUpProps = {
   value: number;
@@ -37,26 +38,35 @@ export default function CountUp({
     }
 
     let raf = 0;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        observer.disconnect();
+    let observer: IntersectionObserver;
+    let cancelled = false;
 
-        const start = performance.now();
-        const tick = (now: number) => {
-          const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          el.textContent = format(value * eased, decimals, prefix, suffix);
-          if (progress < 1) raf = requestAnimationFrame(tick);
-        };
-        raf = requestAnimationFrame(tick);
-      },
-      { threshold: 0.4 },
-    );
+    whenAnimReady().then(() => {
+      if (cancelled) return;
 
-    observer.observe(el);
+      observer = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          observer.disconnect();
+
+          const start = performance.now();
+          const tick = (now: number) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = format(value * eased, decimals, prefix, suffix);
+            if (progress < 1) raf = requestAnimationFrame(tick);
+          };
+          raf = requestAnimationFrame(tick);
+        },
+        { threshold: 0.4 },
+      );
+
+      observer.observe(el);
+    });
+
     return () => {
-      observer.disconnect();
+      cancelled = true;
+      observer?.disconnect();
       cancelAnimationFrame(raf);
     };
   }, [value, decimals, prefix, suffix, duration]);

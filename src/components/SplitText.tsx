@@ -11,6 +11,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText as GSAPSplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
+import { isAnimReady, whenAnimReady } from "@/lib/animReady";
 
 gsap.registerPlugin(ScrollTrigger, GSAPSplitText);
 
@@ -52,10 +53,16 @@ const SplitText = ({
   const animationCompletedRef = useRef(false);
   const onCompleteRef = useRef(onLetterAnimationComplete);
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [animReady, setAnimReady] = useState(isAnimReady);
 
   useEffect(() => {
     onCompleteRef.current = onLetterAnimationComplete;
   }, [onLetterAnimationComplete]);
+
+  useEffect(() => {
+    if (animReady) return;
+    whenAnimReady().then(() => setAnimReady(true));
+  }, [animReady]);
 
   useEffect(() => {
     if (document.fonts.status === "loaded") {
@@ -69,7 +76,7 @@ const SplitText = ({
 
   useGSAP(
     () => {
-      if (!ref.current || !text || !fontsLoaded) return;
+      if (!ref.current || !text || !fontsLoaded || !animReady) return;
       if (animationCompletedRef.current) return;
 
       const el = ref.current as HTMLElement & {
@@ -179,6 +186,7 @@ const SplitText = ({
         threshold,
         rootMargin,
         fontsLoaded,
+        animReady,
         animateOnMount,
       ],
       scope: ref,

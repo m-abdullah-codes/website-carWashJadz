@@ -133,22 +133,46 @@ canvas {
   }
 
   .anim-header {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+
+  html.anim-ready .anim-header {
     animation: header-drop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   .anim-hero-restore {
+    opacity: 0;
+    transform: translateY(46px) scale(0.985);
+  }
+
+  html.anim-ready .anim-hero-restore {
     animation: hero-rise 1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
   }
 
   .anim-hero-car {
+    opacity: 0;
+    transform: translateX(9%) translateY(2%) scale(0.97);
+  }
+
+  html.anim-ready .anim-hero-car {
     animation: hero-car-in 1.3s cubic-bezier(0.19, 1, 0.22, 1) 0.42s both;
   }
 
   .anim-hero-detail {
+    opacity: 0;
+  }
+
+  html.anim-ready .anim-hero-detail {
     animation: hero-fade-in 0.9s ease-out 1.15s both;
   }
 
   .anim-hero-offer {
+    opacity: 0;
+    transform: translateY(46px) scale(0.985);
+  }
+
+  html.anim-ready .anim-hero-offer {
     animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.95s both;
   }
 
@@ -226,6 +250,9 @@ canvas {
     z-index: -1;
     border-radius: 9999px;
     background: rgba(199, 54, 29, 0.4);
+  }
+
+  html.anim-ready .pulse-ring::before {
     animation: ring-pulse 2.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   }
 
