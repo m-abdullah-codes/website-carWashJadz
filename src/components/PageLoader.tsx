@@ -102,17 +102,17 @@ export default function PageLoader() {
         fadeOut ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
-      <div className="flex flex-col items-center gap-10">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col items-center gap-20">
+        <div className="flex flex-col items-center">
           <Image
             src="/images/logo.png"
             alt="Jadz logo"
-            width={48}
-            height={48}
-            className="h-12 w-12 object-contain"
+            width={64}
+            height={64}
+            className="h-40 w-40 object-contain"
             priority
           />
-          <span className="text-3xl font-bold tracking-wide text-black">
+          <span className="-mt-10 text-5xl font-bold leading-none tracking-wide text-black">
             JADZ
           </span>
         </div>
