@@ -46,6 +46,22 @@ canvas {
   .sub-heading {
     @apply text-[clamp(1.7rem,4vw,2.75rem)] font-semibold uppercase leading-tight tracking-[-0.03em];
   }
+
+  /* SplitText chars: expand box upward so italic cap-height isn't clipped */
+  .split-parent {
+    overflow: visible;
+    margin-top: -0.3em;
+    padding-top: 0.3em;
+  }
+
+  .split-parent .split-char {
+    display: inline-block;
+    overflow: visible;
+    vertical-align: top;
+    line-height: 1;
+    margin-top: -0.3em;
+    padding-top: 0.3em;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

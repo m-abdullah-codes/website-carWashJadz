@@ -195,8 +195,7 @@ const SplitText = ({
 
   const style: CSSProperties = {
     textAlign,
-    overflow: "hidden",
-    display: "inline-block",
+    display: tag === "p" ? "inline-block" : "block",
     whiteSpace: "normal",
     wordWrap: "break-word",
     willChange: "transform, opacity",

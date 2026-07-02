@@ -289,7 +289,7 @@ export default function Hero() {
       className={`relative flex flex-col bg-hero ${XS_HERO_SECTION.sectionMinHeight} ${MOBILE_HERO_SECTION.sectionMinHeight} ${TABLET_HERO_SECTION.sectionMinHeight} ${DESKTOP_HERO_SECTION.sectionMinHeight}`}
     >
       <div
-        className={`relative flex flex-col items-center overflow-hidden sm:flex-1 ${heroSectionClasses}`}
+        className={`relative flex flex-col items-center overflow-x-hidden overflow-y-visible sm:flex-1 ${heroSectionClasses}`}
       >
         {/* Layered hero: typography behind, car on top */}
         <div
@@ -320,7 +320,7 @@ export default function Hero() {
             <SplitText
               tag="h1"
               text="RESTORE"
-              className={`w-full font-black italic leading-none tracking-tight text-primary ${MOBILE_HERO.restoreTextSize} ${XS_HERO.restoreTextSize} ${TABLET_HERO.restoreTextSize} ${DESKTOP_HERO.restoreTextSize}`}
+              className={`w-full font-black italic leading-[1.02] tracking-tight text-primary ${MOBILE_HERO.restoreTextSize} ${XS_HERO.restoreTextSize} ${TABLET_HERO.restoreTextSize} ${DESKTOP_HERO.restoreTextSize}`}
               delay={80}
               duration={0.7}
               ease="power3.out"
